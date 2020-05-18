@@ -15,5 +15,6 @@ namespace ApiPrueba.WebAPi.Data
         }
 
         public DbSet<Pais> Paises { get; set; }
+        public DbSet<Provincia> Provincias { get; set; }
     }
 }
