@@ -15,7 +15,6 @@ namespace ApiPrueba.WebAPi.Data.Entities
         public string NomProv { get; set; }
         [Required]
         public int PaisId { get; set; }
-
         public Pais Pais { get; set; }
     }
 }

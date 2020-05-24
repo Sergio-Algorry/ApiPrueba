@@ -23,7 +23,7 @@ namespace ApiPrueba.WebAPi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Pais>> Get()
         {
-            return context.Paises.ToList();
+            return context.Paises.Include(p => p.Provincias).ToList();
         }
 
         [HttpGet("{id}", Name = "ObtenerPaisPorId")]
@@ -81,7 +81,5 @@ namespace ApiPrueba.WebAPi.Controllers
             context.SaveChanges();
             return Ok();
         }
-
-
     }
 }

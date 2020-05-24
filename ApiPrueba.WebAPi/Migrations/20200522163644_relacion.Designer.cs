@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiPrueba.WebAPi.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20200512162957_inicio")]
-    partial class inicio
+    [Migration("20200522163644_relacion")]
+    partial class relacion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,14 +28,50 @@ namespace ApiPrueba.WebAPi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CodPais")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomPais")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Paises");
+                });
+
+            modelBuilder.Entity("ApiPrueba.WebAPi.Data.Entities.Provincia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CodProv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomProv")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaisId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PaisId");
+
+                    b.ToTable("Provincias");
+                });
+
+            modelBuilder.Entity("ApiPrueba.WebAPi.Data.Entities.Provincia", b =>
+                {
+                    b.HasOne("ApiPrueba.WebAPi.Data.Entities.Pais", "Pais")
+                        .WithMany("Provincias")
+                        .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

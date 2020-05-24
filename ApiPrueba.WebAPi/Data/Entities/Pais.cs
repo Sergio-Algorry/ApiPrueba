@@ -13,5 +13,7 @@ namespace ApiPrueba.WebAPi.Data.Entities
         public string CodPais { get; set; }
         [Required]
         public string NomPais { get; set; }
+
+        public List<Provincia> Provincias { get; set; }
     }
 }
