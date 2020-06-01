@@ -28,7 +28,8 @@ namespace ApiPrueba.WebAPi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options
-                => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                => options.SerializerSettings.ReferenceLoopHandling
+                           = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddDbContext<ApiContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DBConex")));

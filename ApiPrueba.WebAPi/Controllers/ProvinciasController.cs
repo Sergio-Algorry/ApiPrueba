@@ -24,10 +24,25 @@ namespace ApiPrueba.WebAPi.Controllers
             return context.Provincias.Include(p => p.Pais).ToList();
         }
 
-        [HttpGet("ProvById/{id}", Name="ProvById")]
+        //   /api/provincias/ProvById/5
+        [HttpGet("ProvById/{id}", Name = "ProvById")]
         public ActionResult<Provincia> GetProvById(int id)
         {
             var provincia = context.Provincias.FirstOrDefault(p => p.Id == id);
+            if (provincia == null)
+            {
+                return NotFound();
+            }
+            return provincia;
+        }
+
+        //   /api/provincias/ProvByCod/x
+        [HttpGet("ProvByCod/{cod}")]
+        public ActionResult<Provincia> GetProvByCod(string cod)
+        {
+            var provincia = context
+                            .Provincias
+                            .Include(p => p.Pais).FirstOrDefault(p => p.CodProv == cod);
             if (provincia == null)
             {
                 return NotFound();
@@ -42,17 +57,6 @@ namespace ApiPrueba.WebAPi.Controllers
             context.SaveChanges();
 
             return new CreatedAtRouteResult("ProvById", new { id = provincia.Id }, provincia);
-        }
-
-        [HttpGet("ProvByCod/{cod}")]
-        public ActionResult<Provincia> GetProvByCod(string cod)
-        {
-            var provincia = context.Provincias.Include(p => p.Pais).FirstOrDefault(p => p.CodProv == cod);
-            if (provincia == null)
-            {
-                return NotFound();
-            }
-            return provincia;
         }
 
         [HttpPut("{id}")]
