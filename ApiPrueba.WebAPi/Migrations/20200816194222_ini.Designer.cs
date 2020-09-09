@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ApiPrueba.WebAPi.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    [Migration("20200519231126_ini")]
+    [Migration("20200816194222_ini")]
     partial class ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,13 +29,21 @@ namespace ApiPrueba.WebAPi.Migrations
 
                     b.Property<string>("CodPais")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NomPais")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CodPais")
+                        .IsUnique()
+                        .HasName("UQ_CodPais");
+
+                    b.HasIndex("NomPais")
+                        .IsUnique()
+                        .HasName("UQ_NomPais");
 
                     b.ToTable("Paises");
                 });
@@ -49,15 +57,37 @@ namespace ApiPrueba.WebAPi.Migrations
 
                     b.Property<string>("CodProv")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NomProv")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PaisId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodProv")
+                        .IsUnique()
+                        .HasName("UQ_CodProv");
+
+                    b.HasIndex("NomProv")
+                        .IsUnique()
+                        .HasName("UQ_NomProv");
+
+                    b.HasIndex("PaisId");
+
                     b.ToTable("Provincias");
+                });
+
+            modelBuilder.Entity("ApiPrueba.WebAPi.Data.Entities.Provincia", b =>
+                {
+                    b.HasOne("ApiPrueba.WebAPi.Data.Entities.Pais", "Pais")
+                        .WithMany("Provincias")
+                        .HasForeignKey("PaisId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
